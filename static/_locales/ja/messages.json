@@ -58,6 +58,12 @@
     "option_all_day_shown": { "message": "終日予定を表示する" },
     "option_mygroup_title": { "message": "Myグループ" },
     "option_mygroup_enabled": { "message": "Myグループの予定を取得する機能を有効にする" },
+    "option_hide_event_title": { "message": "非表示の予定" },
+    "option_hide_event_select": { "message": "選択する" },
+    "option_hide_event_menu": { "message": "予定メニュー" },
+    "option_hide_event_subject": { "message": "タイトル" },
+    "option_hide_event_creator_name": { "message": "登録者名" },
+    "option_hide_event_updater_name": { "message": "更新者名" },
     "option_template_title": { "message": "テンプレート" },
     "option_template_placeholder": {
         "message": "■{%TODAY%}の予定&#13;&#10;{%TODAY_EVENTS%}&#13;&#10;&#13;&#10;■学んだこと&#13;&#10;&#13;&#10;■所感"

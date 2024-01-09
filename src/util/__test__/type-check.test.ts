@@ -1,16 +1,26 @@
-import { isButtonElement, isInputElement, isString, isTextareaElement, isIframeElement } from '../type-check';
+import {
+    isButtonElement,
+    isInputElement,
+    isString,
+    isTextareaElement,
+    isIframeElement,
+    isSelectElement,
+    isDivElement,
+} from '../type-check';
 
 const buttonEl = document.createElement('button');
 const textareaEl = document.createElement('textarea');
 const inputEl = document.createElement('input');
+const selectEl = document.createElement('select');
 const iframeEl = document.createElement('iframe');
+const divEl = document.createElement('div');
 
 describe('isButtonElement', () => {
     test('Button element', () => {
         expect(isButtonElement(buttonEl)).toBe(true);
     });
 
-    test('Not button element', () => {
+    test('Not Button element', () => {
         expect(isButtonElement(inputEl)).toBe(false);
         expect(isButtonElement(null)).toBe(false);
     });
@@ -21,9 +31,20 @@ describe('isInputElement', () => {
         expect(isInputElement(inputEl)).toBe(true);
     });
 
-    test('Not input element', () => {
+    test('Not Input element', () => {
         expect(isInputElement(buttonEl)).toBe(false);
         expect(isInputElement(null)).toBe(false);
+    });
+});
+
+describe('isSelectElement', () => {
+    test('Select element', () => {
+        expect(isSelectElement(selectEl)).toBe(true);
+    });
+
+    test('Not Select element', () => {
+        expect(isSelectElement(inputEl)).toBe(false);
+        expect(isSelectElement(null)).toBe(false);
     });
 });
 
@@ -46,6 +67,17 @@ describe('isIframeElement', () => {
     test('Not Iframe element', () => {
         expect(isIframeElement(inputEl)).toBe(false);
         expect(isIframeElement(null)).toBe(false);
+    });
+});
+
+describe('isDivElement', () => {
+    test('Div element', () => {
+        expect(isDivElement(divEl)).toBe(true);
+    });
+
+    test('Not Div element', () => {
+        expect(isDivElement(buttonEl)).toBe(false);
+        expect(isDivElement(null)).toBe(false);
     });
 });
 

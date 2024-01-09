@@ -1,5 +1,6 @@
 import browser from 'webextension-polyfill';
 import { MyGroup } from './api/garoon-api';
+import { HideEventSetting } from './api/schedule';
 import { Syntax } from './syntax/types';
 
 export type ContextMenuDisplayed = {
@@ -20,6 +21,7 @@ type StorageInitValue = {
     MY_GROUPS: MyGroup[];
     USE_MY_GROUP: boolean;
     ALLDAY_EVENTS_INCLUDED: boolean;
+    HIDE_EVENT_SETTINGS: HideEventSetting[];
 };
 
 const STORAGE_KEY = {
@@ -29,6 +31,7 @@ const STORAGE_KEY = {
     MY_GROUPS: 'myGroups',
     USE_MY_GROUP: 'useMyGroup',
     ALLDAY_EVENTS_INCLUDED: 'alldayEventsIncluded',
+    HIDE_EVENT_SETTINGS: 'hideEventSettings',
 } as const;
 
 const STORAGE_INIT_VALUE: StorageInitValue = {
@@ -47,6 +50,7 @@ const STORAGE_INIT_VALUE: StorageInitValue = {
     MY_GROUPS: [],
     USE_MY_GROUP: false,
     ALLDAY_EVENTS_INCLUDED: true,
+    HIDE_EVENT_SETTINGS: [],
 };
 
 export const setSyntax = async (syntax: Syntax) => {
@@ -131,4 +135,18 @@ export const getAllDayEventsIncluded = async () => {
     }
 
     return item[STORAGE_KEY.ALLDAY_EVENTS_INCLUDED] as boolean;
+};
+
+export const setHideEventSettings = async (hideEventSettings: HideEventSetting[]) => {
+    await browser.storage.sync.set({ [STORAGE_KEY.HIDE_EVENT_SETTINGS]: hideEventSettings });
+};
+
+export const getHideEventSettings = async (): Promise<HideEventSetting[]> => {
+    const item = await browser.storage.sync.get(STORAGE_KEY.HIDE_EVENT_SETTINGS);
+
+    if (Object.keys(item).length === 0) {
+        return STORAGE_INIT_VALUE.HIDE_EVENT_SETTINGS;
+    }
+
+    return item[STORAGE_KEY.HIDE_EVENT_SETTINGS] as HideEventSetting[];
 };

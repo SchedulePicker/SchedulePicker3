@@ -17,6 +17,12 @@ type ScheduleEventsParameters = {
 export type ScheduleEvent = {
     id: string;
     subject: string;
+    creator: {
+        name: string;
+    };
+    updater: {
+        name: string;
+    };
     start: {
         dateTime: string;
         timeZone: string;

@@ -1,0 +1,27 @@
+@use './variable';
+
+.textbox {
+    height: 26px;
+    border: 2px solid variable.$border-color;
+    border-radius: 4px;
+    box-sizing: border-box;
+    background-color: white;
+
+    &:hover {
+        border-color: variable.$primary-color;
+        transition: 0.2s;
+    }
+
+    & input {
+        width: 20em;
+        height: 100%;
+        padding-left: 6px;
+        border: none;
+        box-sizing: border-box;
+        background-color: transparent;
+        line-height: 1.1;
+        &:focus {
+            outline: none;
+        }
+    }
+}

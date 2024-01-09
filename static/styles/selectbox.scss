@@ -1,0 +1,50 @@
+@use './variable';
+
+.selectbox {
+    display: inline-block;
+    position: relative;
+    height: 26px;
+    padding: 0;
+    overflow: hidden;
+    border: 2px solid variable.$border-color;
+    border-radius: 4px;
+    box-sizing: border-box;
+    box-shadow: none;
+    background: white;
+    outline: none;
+    text-overflow: ellipsis;
+    appearance: none;
+
+    & select {
+        width: 100%;
+        padding: 4px 2em 4px 6px;
+        border: none;
+        box-shadow: none;
+        background: transparent;
+        background-image: none;
+        outline: none;
+        cursor: pointer;
+        text-overflow: ellipsis;
+        appearance: none;
+    }
+
+    &:hover {
+        border-color: variable.$primary-color;
+        outline: none;
+        transition: 0.2s;
+        &::after {
+            border-top-color: variable.$primary-color;
+        }
+    }
+
+    &::after {
+        position: absolute;
+        top: 0.5em;
+        right: 0.5em;
+        border-top: 5px solid variable.$border-color;
+        border-right: 5px solid transparent;
+        border-left: 5px solid transparent;
+        content: '';
+        pointer-events: none;
+    }
+}

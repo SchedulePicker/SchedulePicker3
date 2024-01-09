@@ -88,6 +88,31 @@
                     <span class="checkbox-text">__MSG_option_mygroup_enabled__</span>
                 </label>
             </fieldset>
+            <fieldset id="hide-event-setting" class="group">
+                <legend class="group__title">__MSG_option_hide_event_title__</legend>
+                <div id="hide-event-base" style="display:none;">
+                    <div class="hide-event">
+                        <div class="selectbox">
+                            <select class="hide-event-select" required>
+                                <option value="" hidden>__MSG_option_hide_event_select__</option>
+                                <option value="eventMenu">__MSG_option_hide_event_menu__</option>
+                                <option value="subject">__MSG_option_hide_event_subject__</option>
+                                <option value="creatorName">__MSG_option_hide_event_creator_name__</option>
+                                <option value="updaterName">__MSG_option_hide_event_updater_name__</option>
+                            </select>
+                        </div>
+                        <div class="textbox">
+                            <input class="hide-event-text" type="text" />
+                        </div>
+                        <div class="circle-button">
+                            <button class="plus-button hide-event-add"></button>
+                            <button class="minus-button hide-event-delete"></button>
+                        </div>
+                    </div>
+                </div>
+                <div id="hide-event-list">
+                </div>
+            </fieldset>
         </main>
     </body>
     <script type="module" src="../src/options.ts" defer></script>

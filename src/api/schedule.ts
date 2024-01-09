@@ -3,10 +3,23 @@ import { convertToEndOfDay, convertToStartOfDay, dateTime, DateTime } from '../u
 import { getScheduleEvents, ScheduleEvent } from './garoon-api';
 import { getMyGroups } from './general';
 
+export type HideEventSetting = {
+    select: string;
+    text: string;
+};
+
+export const HideEventConditions = {
+    EventMenu: 'eventMenu',
+    Subject: 'subject',
+    CreatorName: 'creatorName',
+    UpdaterName: 'updaterName',
+};
+
 type EventsQuery = {
     startTime: DateTime;
     endTime: DateTime;
     alldayEventsIncluded: boolean;
+    hideEventSettings: HideEventSetting[];
     target?: {
         id: string;
         type: 'user';
@@ -15,6 +28,12 @@ type EventsQuery = {
 
 export type Event = {
     id: string;
+    creator: {
+        name: string;
+    };
+    updater: {
+        name: string;
+    };
     subject: string;
     startTime: DateTime;
     endTime: DateTime;
@@ -36,6 +55,7 @@ type MyGroupEventsQuery = {
     startTime: DateTime;
     endTime: DateTime;
     alldayEventsIncluded: boolean;
+    hideEventSettings: HideEventSetting[];
 };
 
 export type Member = {
@@ -50,6 +70,31 @@ export type MyGroupEvent = Event & {
 const isEventTypeRegularOrRepeating = (
     eventType: 'REGULAR' | 'REPEATING' | 'ALL_DAY',
 ): eventType is 'REGULAR' | 'REPEATING' => eventType === 'REGULAR' || eventType === 'REPEATING';
+
+const isNotHideEvent = (event: ScheduleEvent, hideEventSettings: HideEventSetting[]) => {
+    let result: Boolean = true;
+    for (const hideEventSetting of hideEventSettings) {
+        if (result) {
+            switch (hideEventSetting.select) {
+                case HideEventConditions.EventMenu:
+                    result = !event.eventMenu.includes(hideEventSetting.text);
+                    break;
+                case HideEventConditions.Subject:
+                    result = !event.subject.includes(hideEventSetting.text);
+                    break;
+                case HideEventConditions.CreatorName:
+                    result = !event.creator.name.includes(hideEventSetting.text);
+                    break;
+                case HideEventConditions.UpdaterName:
+                    result = !event.updater.name.includes(hideEventSetting.text);
+                    break;
+                default:
+                    break;
+            }
+        }
+    }
+    return result;
+};
 
 const convertToEvent = (scheduleEvent: ScheduleEvent, queryStartTime: DateTime, queryEndTime: DateTime): Event => {
     let startTime = dateTime(scheduleEvent.start.dateTime);
@@ -80,6 +125,12 @@ const convertToEvent = (scheduleEvent: ScheduleEvent, queryStartTime: DateTime, 
 
     return {
         id: scheduleEvent.id,
+        creator: {
+            name: scheduleEvent.creator.name,
+        },
+        updater: {
+            name: scheduleEvent.updater.name,
+        },
         subject,
         startTime,
         endTime,
@@ -129,12 +180,13 @@ export const getEvents = async (domain: string, query: EventsQuery): Promise<Eve
         .filter((event) =>
             isEventTypeRegularOrRepeating(event.eventType) && query.alldayEventsIncluded ? true : !event.isAllDay,
         ) // 期間予定を除外する && 終日予定を含まない設定の場合は終日予定を除外する
+        .filter((event) => isNotHideEvent(event, query.hideEventSettings)) // 非表示の予定を除外する
         .map((event) => convertToEvent(event, query.startTime, query.endTime))
         .sort(sortByTime);
 };
 
 export const getMyGroupEvents = async (domain: string, query: MyGroupEventsQuery): Promise<MyGroupEvent[]> => {
-    const { groupId, startTime, endTime, alldayEventsIncluded } = query;
+    const { groupId, startTime, endTime, alldayEventsIncluded, hideEventSettings } = query;
     const myGroups = await getMyGroups(domain);
     const myGroupMembers = myGroups.find((group) => group.key === groupId)?.belong_member;
     assertExists(myGroupMembers);
@@ -145,6 +197,7 @@ export const getMyGroupEvents = async (domain: string, query: MyGroupEventsQuery
                 startTime,
                 endTime,
                 alldayEventsIncluded,
+                hideEventSettings,
                 target: { id: userId, type: 'user' },
             });
             return events;

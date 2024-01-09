@@ -2,6 +2,8 @@
 @use './variable';
 @use './button.scss';
 @use './checkbox.scss';
+@use './textbox.scss';
+@use './selectbox.scss';
 @use './radio.scss';
 
 main {
@@ -51,4 +53,12 @@ main {
     &__usage-link {
         color: variable.$primary-color;
     }
+}
+
+.hide-event {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    margin-top: 8px;
+    gap: 0 4px;
 }

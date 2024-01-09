@@ -58,6 +58,12 @@
     "option_all_day_shown": { "message": "Show all-day events" },
     "option_mygroup_title": { "message": "My Group" },
     "option_mygroup_enabled": { "message": "Enable functions to get events of my groups " },
+    "option_hide_event_title": { "message": "Hide Events" },
+    "option_hide_event_select": { "message": "Select Target" },
+    "option_hide_event_menu": { "message": "Event Menu" },
+    "option_hide_event_subject": { "message": "Subject" },
+    "option_hide_event_creator_name": { "message": "Creator Name" },
+    "option_hide_event_updater_name": { "message": "Updater Name" },
     "option_template_title": { "message": "Template" },
     "option_template_placeholder": {
         "message": "■Schedule for {%TODAY%}&#13;&#10;{%TODAY_EVENTS%}&#13;&#10;&#13;&#10;■I learned it&#13;&#10;&#13;&#10;■Impressions"

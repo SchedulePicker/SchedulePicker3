@@ -2,6 +2,12 @@
 
 $checkbox-size: 20px;
 
+.checkbox-label {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0 4px;
+}
+
 .checkbox {
     position: relative;
     width: $checkbox-size;

@@ -1,10 +1,11 @@
 @use './variable';
 
-$button-height: 32px;
+$button-size: 32px;
+$circle-button-size: 24px;
 
 .save-button {
     width: 80px;
-    height: 32px;
+    height: $button-size;
     border-radius: 999px;
     border: 2px solid variable.$primary-color;
     box-sizing: border-box;
@@ -28,7 +29,7 @@ $button-height: 32px;
 }
 
 .saving {
-    width: $button-height;
+    width: $button-size;
     background-color: white;
     border: 2px solid transparent;
     border-radius: 100vh;
@@ -60,5 +61,53 @@ $button-height: 32px;
 @keyframes check {
     to {
         fill: variable.$primary-color;
+    }
+}
+
+.circle-button {
+    display: inline-flex;
+    align-items: center;
+    gap: 3px;
+
+    & button {
+        position: relative;
+        width: $circle-button-size;
+        height: $circle-button-size;
+        border: 2px solid variable.$border-color;
+        border-radius: 50%;
+        background-color: white;
+        cursor: pointer;
+
+        appearance: none;
+
+        &:before,
+        &:after {
+            display: block;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            border-radius: 4px;
+            background-color: variable.$border-color;
+            content: '';
+        }
+        &.plus-button::before,
+        &.minus-button::before {
+            width: 50%;
+            height: 10%;
+        }
+        &.plus-button::after {
+            width: 10%;
+            height: 50%;
+        }
+
+        &:hover {
+            border-color: variable.$primary-color;
+            transition: 0.2s;
+            &::before,
+            &::after {
+                background-color: variable.$primary-color;
+            }
+        }
     }
 }
